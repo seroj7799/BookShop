@@ -1,0 +1,92 @@
+﻿@model BookDisplayModel;
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div my-2>
+<form asp-action="Index" class="row row-cols-lg-auto g-3 align-items-center">
+
+  <div class="col-12">
+            <label class="visually-hidden" for="genreId">Ganres</label>
+    <select class="form-select" id="genreId" name="genreId">
+      <option selected>Choose</option>
+                @foreach(var genre in Model.Genres)
+                {
+                    <option selected="@(genre.Id == Model.GenreId)" value="@genre.Id">@genre.GenreName</option>
+
+                }
+    </select>
+
+  </div>
+    <div class="col-12">
+            <label class="visually-hidden" for="sterm">Search by title</label>
+    <div class="input-group">
+      <div class="input-group-text"></div>
+      <input type="text" class="form-control" value="@Model.STerm" id="sterm" name="sterm" placeholder="Search by title">
+    </div>
+  </div>
+
+
+  <div class="col-12">
+    <button type="submit" class="btn btn-success">Search</button>
+    <a href="/Home/Index" class="btn btn-dark">Reset</a>
+
+  </div>
+</form>
+</div>
+
+<div class="w-100 d-flex flex-wrap">
+    @foreach (var book in Model.Books)
+    {
+        <div class="card mx-2 mb-4" style="width: 16rem;">
+            @if(string.IsNullOrEmpty(book.Image))
+            {
+                <img src="images/noImage.jpg" style="width:100px;height:160px" class="card-img-top" alt="...">
+            }else
+            {
+                <img src="/images/@book.Image" style="width:100px;height:160px" class="card-img-top" alt="...">
+
+            }
+            <div class="card-body">
+            <h5 class="card-title">@book.BookName  </h5>
+                <p class="card-text">
+                    <b>Genre:</b> @book.GenreName <br />
+                    <b>Author:</b> @book.AuthorName <br/>
+                    <b>Price:</b> @book.Price <br />
+                    <b>Quantity:</b> @book.Quantity <br />
+
+                </p>
+                @if(book.Quantity > 0)
+                {
+                    <button type="button" onclick="add(@book.Id)" class="btn btn-primary">Add to cart</button>
+                }
+                else
+                {
+                    <span style="border:1px solid red;padding 5px 8px; border-radius:5px">Out of stock</span>
+
+                }
+        </div>
+    </div>
+    }
+</div>
+
+@section Scripts{
+    <script>
+        async function add(bookId){
+            try{
+                var response = await fetch(`/Cart/AddItem?bookId=${bookId}`)
+                if (response.status == 200) {
+                    var result = await response.json()
+                    console.log(result)
+                    var cartCountEl = document.getElementById("cartCount")
+                    cartCountEl.innerHTML = result;
+                }
+                
+            }catch(e){
+                console.log(e)
+            }
+      
+        }
+    </script>
+
+}
