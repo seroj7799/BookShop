@@ -20,7 +20,8 @@ namespace BookShop.Controllers
             return View(orders);
         }
 
-        public async Task<IActionResult> TogglePaymetStatus(int orderId)
+        
+        public async Task<IActionResult> TogglePaymentStatus(int orderId)
         {
             try
             {

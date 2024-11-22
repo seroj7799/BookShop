@@ -13,7 +13,6 @@
                 @foreach(var genre in Model.Genres)
                 {
                     <option selected="@(genre.Id == Model.GenreId)" value="@genre.Id">@genre.GenreName</option>
-
                 }
     </select>
 
@@ -88,5 +87,4 @@
       
         }
     </script>
-
 }

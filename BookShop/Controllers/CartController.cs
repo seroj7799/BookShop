@@ -5,7 +5,7 @@ namespace BookShop.Controllers
 {
     public class CartController : Controller
     {
-        //[Authorize]
+        // [Authorize]
 
         private readonly ICartRepository _cartRepo;
         public CartController(ICartRepository cartRepo)

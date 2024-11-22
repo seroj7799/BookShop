@@ -1,1 +1,4 @@
 ﻿.vs/
+.Data/Migrations/
+.bin/
+.obj/
